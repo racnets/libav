@@ -10,3 +10,27 @@ Libav README
 ------------
 
 * See the LICENSE file.
+
+3) ch branch features
+---------------------
+
+add a switch to disable some major decode functionality.
+So it's pratically reduced down to parsing only, which would be interressting if you're only interrested in motion vectors.
+
+The switch is the field experimental_mode in the AVCodecContext.
+Setting this to 1 skips the ff_h264_hl_decode_mb() function.
+Setting this to 2 skips the deblocking filter.
+
+* build - minimalistic
+
+ ./configure --disable-programs --disable-doc --enable-shared --disable-static --disable-decoders --disable-encoders --enable-decoder=h264 --disable-muxers --disable-demuxers --enable-demuxer=h264 --disable-filters --disable-parsers --enable-parser=h264 --disable-debug
+ make
+ 
+building on raspberry pi: add a --enable-fft to the ./configure above to get the neon extensions running.
+(otherwise it will build, but you can't link it due to undefined references to some neon fft functions)
+
+* impacts on a raspberryPi decoding a 360p videostream(much movement scene)
+	increase the fps to nearly 150% from 8.7 to 13.7 by skipping the ff_h264_hl_decode_mb function
+	increase the fps to nearly 300% from 8.7 to 26.1 by additionally skipping the deblocking filter
+ 
+	

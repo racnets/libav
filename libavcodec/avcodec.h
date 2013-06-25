@@ -2940,6 +2940,15 @@ typedef struct AVCodecContext {
      * - decoding: unused.
      */
     uint64_t vbv_delay;
+
+    /**
+     * activates some experimental code
+     *
+     * e.g. decode mv only hack
+     */
+#define DECODE_MV_ONLY  	        0x01
+#define DISABLE_DEBLOCKING_FILTER   0x02
+    uint8_t experimental_mode;
 } AVCodecContext;
 
 /**
